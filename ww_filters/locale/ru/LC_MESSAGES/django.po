@@ -1,0 +1,138 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-12-01 14:16+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: django_wwfilters/settings.py:94
+msgid "English"
+msgstr ""
+
+#: django_wwfilters/settings.py:95
+msgid "Russian"
+msgstr "Русский"
+
+#: ww_filters/filters.py:89 ww_filters/filters.py:106
+#: ww_filters/filters.py:118 ww_filters/filters.py:129
+#: ww_filters/filters.py:144 ww_filters/filters.py:163
+msgid "Equal"
+msgstr "Соответствует"
+
+#: ww_filters/filters.py:90
+msgid "Starts with"
+msgstr "Начинается с"
+
+#: ww_filters/filters.py:91
+msgid "Ends with"
+msgstr "Заканчивается на"
+
+#: ww_filters/filters.py:92
+msgid "Contains"
+msgstr "Содержит"
+
+#: ww_filters/filters.py:96 ww_filters/filters.py:101
+#: ww_filters/filters.py:112 ww_filters/filters.py:123
+#: ww_filters/filters.py:134 ww_filters/filters.py:158
+#: ww_filters/filters.py:177
+msgid "Empty"
+msgstr "Пусто"
+
+#: ww_filters/filters.py:97 ww_filters/filters.py:102
+#: ww_filters/filters.py:113 ww_filters/filters.py:124
+#: ww_filters/filters.py:135 ww_filters/filters.py:159
+#: ww_filters/filters.py:178
+msgid "Filled"
+msgstr "Заполнено"
+
+#: ww_filters/filters.py:107
+msgid "Greater than"
+msgstr "Больше чем"
+
+#: ww_filters/filters.py:108
+msgid "Less than"
+msgstr "Меньше чем"
+
+#: ww_filters/filters.py:117 ww_filters/filters.py:128
+msgid "Today"
+msgstr "Текущая дата"
+
+#: ww_filters/filters.py:119 ww_filters/filters.py:130
+msgid "Between"
+msgstr "Между"
+
+#: ww_filters/filters.py:139
+msgid "Checked"
+msgstr "Выбрано"
+
+#: ww_filters/filters.py:140
+msgid "Not checked"
+msgstr "Не выбрано"
+
+#: ww_filters/models.py:9
+msgid "User"
+msgstr "Пользователь"
+
+#: ww_filters/models.py:10
+msgid "Filter Name"
+msgstr "Название фильтра"
+
+#: ww_filters/templates/ww_filters/_list_forms.html:18
+#: ww_filters/templates/ww_filters/_list_forms.html:31
+msgid "Accept"
+msgstr "Принять"
+
+#: ww_filters/templates/ww_filters/_list_forms.html:19
+#: ww_filters/templates/ww_filters/_list_forms.html:33
+msgid "Clear"
+msgstr "Очистить"
+
+#: ww_filters/templates/ww_filters/_list_forms.html:44
+msgid "Previously saved filters"
+msgstr "Ранее сохранённые фильтры"
+
+#: ww_filters/templates/ww_filters/_list_forms.html:187
+msgid "Enter query name"
+msgstr "Введите название фильтра"
+
+#: ww_filters/templates/ww_filters/_list_forms.html:190
+msgid "Name can not be empty"
+msgstr "Имя не может быть пустым"
+
+#: ww_filters/updaters.py:16 ww_filters/updaters.py:25
+msgid "Value"
+msgstr "Значение"
+
+#: ww_filters/updaters.py:20
+msgid "Start"
+msgstr "Начало"
+
+#: ww_filters/updaters.py:21
+msgid "End"
+msgstr "Конец"
+
+#: ww_filters/updaters.py:29
+msgid "Date"
+msgstr "Дата"
+
+#: ww_filters/updaters.py:39 ww_filters/updaters.py:53
+msgid "Choice"
+msgstr "Выбор"
+
+#: ww_filters/updaters.py:43
+msgid "Values"
+msgstr "Значения"

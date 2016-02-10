@@ -1,0 +1,203 @@
+{% load i18n %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/3.1.1/bootstrap3-typeahead.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.css" rel="stylesheet" media="screen">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.css" rel="stylesheet" media="screen">
+
+
+<div class="col-lg-8" style="display: none" xmlns="http://www.w3.org/1999/html">
+    <div class="row">
+        <form class="form-inline" role="form">
+            <div class="form-group col-lg-6">
+                <select class="form-control">
+                    <option value=""></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">{% trans 'Accept' %}</button>
+            <button type="submit" class="btn btn-default">{% trans 'Clear' %}</button>
+        </form>
+    </div>
+</div>
+
+<div class="col-lg-8">
+    <form id="main">
+        <div id="used_filters" class="row"></div>
+        <div style="margin-bottom: 10px; display: none;" class="apply-filter-button-container row">
+            <div class="row">
+                <div class="col-lg-9 col-lg-offset-3">
+                    <button id="submit_main_form" class="btn btn-primary" type="button">
+                        {% trans 'Accept' %}
+                    </button>
+                    <a href="." class="btn btn-default">{% trans 'Clear' %}</a>
+                    <a id="saving" onclick="save_filter()" class="btn btn-danger">
+                        <i class="glyphicon glyphicon-save"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="saved" class="row">
+        {% if saved %}
+            <h4>{% trans 'Previously saved filters' %}</h4>
+            {% for s in saved %}
+                <a href="{{ s.data }}">{{ s.name }}</a>
+                <a href="{% url 'filters:delete_filter' s.pk %}" class="glyphicon glyphicon-remove"></a>
+                <br>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="col-lg-4">
+    <form class="pull-right form-horizontal">
+        <div class="form-group">
+            <label class="col-lg-6 control-label">Добавить фильтр</label>
+            <div class="col-lg-6">
+                <select class="form-control" id="list_filters_choice">
+                    <option value=""></option>
+
+                    {% for name, filter in filter_collection.filters.items %}
+                        <option value="{{ name }}">{{ filter.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="display: none;">
+    <div id="filters">
+        {% for name, filter in filter_collection.filters.items %}
+            <div style="margin-bottom:5px;" id="{{ name }}_filter" class="row{% if filter.bound %} bound_filter{% endif %}">
+                <div class="col-lg-3 form-control-static">
+                    <span style="cursor: pointer" class="remove-filter text-danger" data-filter="{{ name }}">&times</span>
+                    {{ filter.title }}
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="form-inline" role="form">
+                        <div class="form-group">
+                            <select name="{{ name }}_filter" class="form-control filter-condition-choice">
+                                {% for v, n in filter.updaters.items %}
+                                    <option {% if filter.bound == v %}selected{% endif %} value="{{ v }}">
+                                        {{ n.title }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" id="subform_{{ name }}_filter"></div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="all_filters_subforms">
+        {% for name, filter in filter_collection.filters.items %}
+            {% for v, n in filter.updaters.items %}
+                <div id="{{ name }}_filter_{{ v }}" class="main_subfilter_container {{ name }}_filter">
+                    {{ n.render }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    $(function() {
+        function actionButtons() {
+            if ($('#used_filters').find('.main_subfilter_container').length > 0) {
+                $('.apply-filter-button-container').show();
+                $('#saved').hide()
+            } else {
+                $('.apply-filter-button-container').hide();
+                $('#saved').show()
+            }
+        }
+
+        $('.remove-filter').click(function(){
+            var filter = $(this).data('filter');
+            $('#filters').append($('#used_filters').find('#'+filter+'_filter'));
+            actionButtons();
+            if (!$('.apply-filter-button-container').is(':visible')) {
+                window.location.href = ".";
+            }
+            else {
+                $('#submit_main_form').click();
+            }
+            return false;
+        });
+
+       $('.filter-condition-choice').change(function() {
+           var div_name = $(this).attr('name')+'_'+$(this).val();
+           var filter_subform = $('#subform_' + $(this).attr('name'));
+           filter_subform.find('.main_subfilter_container').appendTo($('#all_filters_subforms'));
+           $('#' + div_name).appendTo(filter_subform);
+           actionButtons();
+       });
+
+       $('#list_filters_choice').change(function() {
+           $('#used_filters').append($('#filters').find('#'+$(this).val()+'_filter'));
+           // get first filter
+           var filter_subform = $('#subform_' + $(this).val()+'_filter');
+           $('.' + $(this).val()+'_filter').first().appendTo(filter_subform);
+           actionButtons();
+
+       });
+
+       var u = $('#used_filters');
+       u.append($('#filters').find('.bound_filter'));
+       u.find('.filter-condition-choice').each(function(k, v){
+            var div_name = $(v).attr('name')+'_'+$(this).val();
+            var filter_subform = $('#subform_' + $(this).attr('name'));
+            filter_subform.find('.main_subfilter_container').appendTo($('#all_filters_subforms'));
+            $('#' + div_name).appendTo(filter_subform);
+       });
+       actionButtons();
+
+    });
+
+    $('#submit_main_form').click(function() {
+        var get_params_start = ~clear_url.indexOf('?') ? clear_url.indexOf('?'): clear_url.indexOf('&');
+        var old_params = '';
+        if (~get_params_start) {
+            old_params = clear_url.slice(get_params_start + 1, clear_url.length);
+            clear_url = clear_url.slice(0, get_params_start);
+        }
+        var new_url = clear_url + '?' + $('#main').serialize();
+        if (old_params != '') {
+            new_url += '&' + old_params;
+        }
+        window.location.href = new_url;
+    });
+
+    var user = "{{ request.account.id }}";
+    var type = "{{ type }}";
+
+    function save_filter(){
+        var name = prompt("{% trans 'Enter query name' %}");
+
+        if (name.length == 0){
+            name = prompt("{% trans 'Name can not be empty' %}");
+        }
+
+        var data = '?' + $('form#main').serialize();
+        var source = location.href.replace(data, '');
+
+        $.get("{% url 'filters:save_filter' %}",
+            {name: name, data: data, user: user, source: source, type: type},
+
+            function(result){
+                if (result == 'error'){
+                    $('form#main').submit()
+                }
+            }
+        )
+    }
+
+$('.select2').find('select').select2();
+</script>
